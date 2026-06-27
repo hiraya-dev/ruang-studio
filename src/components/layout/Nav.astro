@@ -14,7 +14,7 @@ import { site } from '../../data/site';
       <ul class="nav_links" role="list">
         {site.nav.map(({ label, href }) => (
           <li>
-            <a href={href} class="nav_link">{label}</a>
+            <a href={href} class="nav_link" data-underline-link>{label}</a>
           </li>
         ))}
       </ul>
@@ -76,13 +76,4 @@ import { site } from '../../data/site';
     text-decoration: none;
   }
 
-  .nav_link:hover {
-    opacity: 0.6;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .nav_link {
-      transition: opacity var(--duration-fast) var(--ease-out-quart);
-    }
-  }
 </style>

@@ -12,7 +12,7 @@ const { footer, email } = site;
     <div class="footer_rows">
       <!-- Row 1: statement + description -->
       <div class="footer_row footer_row--top section_grid">
-        <p class="footer_heading">{footer.heading}</p>
+        <h2 class="footer_heading" data-split="heading">{footer.heading}</h2>
         <p class="footer_desc">
           {footer.description.map((line, i) => (
             <>{line}{i < footer.description.length - 1 && <br />}</>
@@ -26,7 +26,7 @@ const { footer, email } = site;
         <nav class="footer_nav" aria-label="Footer">
           <ul role="list">
             {footer.sitemap.map((item) => (
-              <li><a class="footer_link" href={item.href}>{item.label}</a></li>
+              <li><a class="footer_link" href={item.href} data-underline-link>{item.label}</a></li>
             ))}
           </ul>
         </nav>
@@ -35,7 +35,7 @@ const { footer, email } = site;
       <!-- Row 3: work with us -->
       <div class="footer_row footer_row--work section_grid">
         <p class="footer_label">{footer.workLabel}</p>
-        <a class="footer_email" href={`mailto:${email}`}>{email}</a>
+        <a class="footer_email" href={`mailto:${email}`} data-underline-link>{email}</a>
       </div>
 
       <!-- Legal -->
@@ -43,10 +43,10 @@ const { footer, email } = site;
         <p class="footer_copy">{footer.copyright}</p>
         <span class="footer_legalLinks">
           {footer.legal.map((item) => (
-            <a class="footer_legalLink" href={item.href}>{item.label}</a>
+            <a class="footer_legalLink" href={item.href} data-underline-link>{item.label}</a>
           ))}
         </span>
-        <a class="footer_social" href={footer.social.href} target="_blank" rel="noopener noreferrer">
+        <a class="footer_social" href={footer.social.href} target="_blank" rel="noopener noreferrer" data-underline-link>
           {footer.social.label}
         </a>
       </div>
@@ -135,14 +135,11 @@ const { footer, email } = site;
     color: var(--color-fg);
     text-decoration: none;
   }
-  .footer_link:hover,
-  .footer_email:hover {
-    opacity: 0.6;
-  }
 
   /* Row 3 email */
   .footer_email {
     grid-column: 7 / 13;
+    width: fit-content;
   }
 
   /* Legal row */
@@ -172,10 +169,6 @@ const { footer, email } = site;
     grid-column: 12 / 13;
     justify-self: end;
   }
-  .footer_legalLink:hover,
-  .footer_social:hover {
-    opacity: 0.6;
-  }
 
   @container (width < 50em) {
     /* Top row: stack heading + desc, reduce bottom padding */
@@ -197,14 +190,6 @@ const { footer, email } = site;
     .footer_social     { grid-column: auto; justify-self: auto; }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .footer_link,
-    .footer_email,
-    .footer_legalLink,
-    .footer_social {
-      transition: opacity var(--duration-fast) var(--ease-out-quart);
-    }
-  }
 
   /* Oversized wordmark — stretches to the container max width and sits flush
      at the document's bottom edge, where its descenders are clipped, giving the
