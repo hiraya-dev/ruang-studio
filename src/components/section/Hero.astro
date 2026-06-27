@@ -13,7 +13,7 @@ const { headline, tagline } = Astro.props;
 <section class="hero" aria-label="Hero">
   <div class="container hero_container">
     <div class="hero_text">
-      <h1 class="hero_headline">{headline}</h1>
+      <h1 class="hero_headline" data-split="heading" data-split-trigger="load">{headline}</h1>
       <p class="hero_tagline">{tagline}</p>
     </div>
 

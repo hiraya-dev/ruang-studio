@@ -85,6 +85,11 @@ img, video {
 .section_bleed > *       { grid-column: 2 / -2; }
 .section_bleed .is-bleed { grid-column: 1 / -1; }
 
+/* FOUC guard: headings are shown by initMaskTextScrollReveal (or its reduced-motion branch) */
+[data-split="heading"] {
+  visibility: hidden;
+}
+
 /* ---------- Utilities ---------- */
 .u-visually-hidden {
   position: absolute;

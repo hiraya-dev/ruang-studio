@@ -52,10 +52,12 @@ const pageTitle = title === site.name ? title : `${title} — ${site.name}`;
     <script>
       import { initSmoothScroll } from '../lib/motion/lenis';
       import { initGlobalParallax } from '../lib/motion/parallax';
+      import { initMaskTextScrollReveal } from '../lib/motion/splitReveal';
 
       function initMotion() {
         initSmoothScroll();
         initGlobalParallax();
+        initMaskTextScrollReveal();
       }
 
       initMotion();
