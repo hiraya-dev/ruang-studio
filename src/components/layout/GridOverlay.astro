@@ -1,6 +1,6 @@
 ---
 // Dev easter egg: press Shift + G to toggle a visual overlay of the
-// editorial grid (12 col desktop / 4 col mobile, 20px gutter + margin).
+// editorial grid (12 col desktop / 6 col tablet / 4 col mobile).
 // Uses the same tokens as the real grid, so if the overlay and the
 // layout ever disagree, the layout is wrong.
 ---
@@ -18,7 +18,6 @@
     z-index: 9999;
     pointer-events: none;
     display: none;
-    container-type: inline-size;
   }
   .grid_overlay.is-active {
     display: block;
@@ -32,12 +31,21 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: var(--grid-gutter);
   }
-  /* No --color-accent in this project; use ink at low opacity */
   .grid_overlay_col {
     background-color: color-mix(in oklch, var(--color-fg) 6%, transparent);
     border-inline: 1px solid color-mix(in oklch, var(--color-fg) 18%, transparent);
   }
-  @container (width < 50em) {
+
+  @media (width < 64em) {
+    .grid_overlay_contain {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .grid_overlay_col:nth-child(n + 7) {
+      display: none;
+    }
+  }
+
+  @media (width < 35em) {
     .grid_overlay_contain {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }

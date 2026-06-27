@@ -5,7 +5,7 @@ import { site } from '../../data/site';
 ---
 
 <header class="nav" role="banner">
-  <div class="nav_inner">
+  <div class="container nav_inner">
     <a href="/" class="nav_logo" aria-label={`${site.name} — home`}>
       <Image src={logo} alt={site.name} width={92} height={32} loading="eager" />
     </a>
@@ -27,22 +27,21 @@ import { site } from '../../data/site';
   .nav {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     z-index: 50;
     background-color: var(--color-bg);
+    overflow-x: clip;
   }
 
-  /* Mirrors the hero section: max-width + margin-inline + padding-inline
-     so the logo and headline share the same horizontal origin at every viewport. */
   .nav_inner {
-    max-width: var(--container-max);
-    margin-inline: auto;
-    padding-inline: var(--site-margin);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-block: var(--space-6);
+  }
+
+  .nav_inner nav {
+    min-width: 0;
   }
 
   .nav_logo {

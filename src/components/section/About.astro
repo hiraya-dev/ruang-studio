@@ -107,4 +107,11 @@ const { eyebrow, heading, body, note, imageAlt } = home.about;
     letter-spacing: var(--tracking-tight);
     color: var(--color-fg);
   }
+
+  @container (width < 50em) {
+    .about_grid  { row-gap: var(--space-8); }
+    .about_media { grid-column: 1 / -1; aspect-ratio: 720 / 640; }
+    .about_body  { grid-column: 1 / -1; justify-content: flex-start; }
+    .about_lead  { gap: var(--space-4); }
+  }
 </style>

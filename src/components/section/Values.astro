@@ -128,9 +128,17 @@ const { eyebrow, items, imageAlt } = home.values;
     aspect-ratio: 720 / 932;
     overflow: clip;
   }
+
   .values_media :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @container (width < 50em) {
+    .values_grid  { row-gap: var(--space-8); }
+    .values_text  { grid-column: 1 / -1; justify-content: flex-start; gap: 2.5rem; }
+    .values_media { grid-column: 1 / -1; aspect-ratio: 1 / 1; }
+    .values_list  { gap: 2.5rem; /* 40px — tablet item spacing per Figma */ }
   }
 </style>

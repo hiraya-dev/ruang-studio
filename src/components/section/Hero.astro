@@ -11,48 +11,54 @@ const { headline, tagline } = Astro.props;
 ---
 
 <section class="hero" aria-label="Hero">
-  <div class="hero_text">
-    <h1 class="hero_headline">{headline}</h1>
-    <p class="hero_tagline" aria-label={tagline}>{tagline}</p>
-  </div>
+  <div class="container hero_container">
+    <div class="hero_text">
+      <h1 class="hero_headline">{headline}</h1>
+      <p class="hero_tagline">{tagline}</p>
+    </div>
 
-  <div class="hero_image">
-    <Image
-      src={heroImg}
-      alt="Bukit Timah Residence — living room with caramel sofa, monstera plant, and full-height glazing"
-      width={1460}
-      height={820}
-      loading="eager"
-      fetchpriority="high"
-      format="webp"
-      quality={85}
-    />
+    <figure class="hero_media">
+      <Image
+        src={heroImg}
+        alt="Bukit Timah Residence — living room with caramel sofa, monstera plant, and full-height glazing"
+        width={1460}
+        height={820}
+        loading="eager"
+        fetchpriority="high"
+        format="webp"
+        quality={85}
+        sizes="(min-width: 64em) 92vw, 100vw"
+      />
+    </figure>
   </div>
 </section>
 
 <style>
   .hero {
-    position: relative;
-    max-width: var(--container-max); /* locks at 1920px */
-    margin-inline: auto;
-    height: 100dvh; /* full viewport; image flexes to fill the space below the text */
     background-color: var(--color-bg);
-    overflow: clip;
+  }
+
+  .hero_container {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--space-8);
+    min-height: 100dvh;
+    padding-block-start: var(--space-hero-pt);
+    padding-block-end: var(--space-8);
   }
 
   .hero_text {
-    position: absolute;
-    top: 12.3125rem; /* 197px */
-    left: var(--site-margin);
-    right: var(--site-margin);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    gap: var(--space-4);
   }
 
   .hero_headline {
-    width: 37.3125rem; /* 597px */
     margin: 0;
+    max-width: 37.3125rem;
+    min-width: 0;
+    text-wrap: balance;
     font-family: var(--font-display);
     font-weight: 500;
     font-size: var(--text-h1);
@@ -63,6 +69,7 @@ const { headline, tagline } = Astro.props;
 
   .hero_tagline {
     margin: 0;
+    flex-shrink: 0;
     font-family: var(--font-body);
     font-weight: 600;
     font-size: var(--text-small);
@@ -74,19 +81,46 @@ const { headline, tagline } = Astro.props;
     white-space: nowrap;
   }
 
-  /* Photo — full content width, flexes from the text zone to the bottom padding */
-  .hero_image {
-    position: absolute;
-    top: 24.8125rem; /* 397px */
-    left: var(--site-margin);
-    right: var(--site-margin);
-    bottom: var(--space-8); /* 32px — matches the Figma bottom gap */
+  .hero_media {
+    position: relative;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
   }
 
-  .hero_image img {
+  .hero_media img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  @media (width < 64em) {
+    .hero_container {
+      min-height: auto;
+      grid-template-rows: auto auto;
+    }
+
+    .hero_media {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  @container (width < 35em) {
+    .hero_text {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero_tagline {
+      text-align: left;
+      white-space: normal;
+    }
+
+    .hero_headline {
+      max-width: none;
+    }
   }
 </style>

@@ -35,6 +35,7 @@ html {
   font-family: var(--font-body);
   font-size: 100%;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 body {
@@ -52,6 +53,7 @@ img, video {
 /* Caps at 1920px. The 20px margin lives INSIDE the cap (padding-inline),
    so columns stay put above 1920 instead of drifting to the box edge. */
 .container {
+  width: 100%;
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--site-margin);
