@@ -1,0 +1,68 @@
+---
+// Dev easter egg: press Shift + G to toggle a visual overlay of the
+// editorial grid (12 col desktop / 4 col mobile, 20px gutter + margin).
+// Uses the same tokens as the real grid, so if the overlay and the
+// layout ever disagree, the layout is wrong.
+---
+
+<div class="grid_overlay" data-grid-overlay aria-hidden="true">
+  <div class="grid_overlay_contain">
+    {Array.from({ length: 12 }).map(() => <div class="grid_overlay_col"></div>)}
+  </div>
+</div>
+
+<style>
+  .grid_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    display: none;
+    container-type: inline-size;
+  }
+  .grid_overlay.is-active {
+    display: block;
+  }
+  .grid_overlay_contain {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--site-margin);
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+  }
+  /* No --color-accent in this project; use ink at low opacity */
+  .grid_overlay_col {
+    background-color: color-mix(in oklch, var(--color-fg) 6%, transparent);
+    border-inline: 1px solid color-mix(in oklch, var(--color-fg) 18%, transparent);
+  }
+  @container (width < 50em) {
+    .grid_overlay_contain {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .grid_overlay_col:nth-child(n + 5) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('keydown', (e) => {
+    if (!e.shiftKey || e.key.toLowerCase() !== 'g') return;
+    const t = e.target as HTMLElement;
+    if (t.matches('input, textarea, select, [contenteditable]')) return;
+
+    const overlay = document.querySelector('[data-grid-overlay]');
+    if (!overlay) return;
+    overlay.classList.toggle('is-active');
+    sessionStorage.setItem(
+      'grid-overlay',
+      overlay.classList.contains('is-active') ? '1' : '0'
+    );
+  });
+
+  if (sessionStorage.getItem('grid-overlay') === '1') {
+    document.querySelector('[data-grid-overlay]')?.classList.add('is-active');
+  }
+</script>

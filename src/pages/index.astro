@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/section/Hero.astro';
+import Projects from '../components/section/Projects.astro';
+import About from '../components/section/About.astro';
+import ImageDivider from '../components/section/ImageDivider.astro';
+import Values from '../components/section/Values.astro';
+import Contact from '../components/section/Contact.astro';
+import { home } from '../data/home';
+---
+
+<Base>
+  <Hero
+    headline={home.hero.headline}
+    tagline={home.hero.tagline}
+  />
+  <Projects />
+  <About />
+  <ImageDivider />
+  <Values />
+  <Contact />
+</Base>

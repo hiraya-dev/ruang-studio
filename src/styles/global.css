@@ -1,0 +1,98 @@
+@font-face {
+  font-family: 'PP Eiko';
+  src: url('/fonts/PPEiko-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Mori';
+  src: url('/fonts/PPMori-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Mori';
+  src: url('/fonts/PPMori-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import "tailwindcss";
+@import "./tokens.css";
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- Layout primitives ---------- */
+
+/* Caps at 1920px. The 20px margin lives INSIDE the cap (padding-inline),
+   so columns stay put above 1920 instead of drifting to the box edge. */
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--site-margin);
+  container-type: inline-size;
+}
+
+/* 12-col desktop, 4-col mobile (via @container) */
+.section_grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+
+@container (width < 50em) {
+  .section_grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Full-bleed breakout: section owns margin tracks, children opt in with .is-bleed */
+.section_bleed {
+  display: grid;
+  grid-template-columns:
+    var(--site-margin)
+    repeat(12, minmax(0, 1fr))
+    var(--site-margin);
+  column-gap: var(--grid-gutter);
+}
+.section_bleed > *       { grid-column: 2 / -2; }
+.section_bleed .is-bleed { grid-column: 1 / -1; }
+
+/* ---------- Utilities ---------- */
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

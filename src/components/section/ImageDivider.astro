@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import dividerImg from '../../assets/divider-interior.jpg';
+---
+
+<section
+  class="divider"
+  data-parallax="trigger"
+  data-parallax-start="6"
+  data-parallax-end="-6"
+  data-parallax-scrub="true"
+  aria-hidden="true"
+>
+  <div class="divider_media" data-parallax="target">
+    <Image
+      src={dividerImg}
+      alt=""
+      width={1500}
+      height={1000}
+      loading="lazy"
+      format="webp"
+      quality={80}
+      sizes="100vw"
+    />
+  </div>
+  <div class="divider_overlay"></div>
+</section>
+
+<style>
+  /* Full-bleed: edge to edge of the viewport, full viewport height */
+  .divider {
+    position: relative;
+    width: 100vw;
+    height: 100dvh;
+    overflow: clip; /* mask: hides the taller media wrapper's overflow */
+    background-color: var(--color-bg);
+  }
+
+  /* Taller-than-frame wrapper, centred, so it can drift without exposing gaps */
+  .divider_media {
+    position: absolute;
+    inset: -10% 0; /* 120% tall, 10% slack top and bottom */
+    will-change: transform;
+  }
+  .divider_media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .divider_overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-overlay); /* ink @ 10% */
+    pointer-events: none;
+  }
+</style>

@@ -1,0 +1,91 @@
+/* tokens.css
+   Single source of truth for design tokens.
+   Fluid values interpolate between a 375px (23.4375rem) floor
+   and a 1500px (93.75rem) ceiling, matching the Figma frames.
+   Above 1500px the layout caps: container locks, margins grow.
+
+   clamp formula for new tokens:
+   slope = (max - min) / (93.75 - 23.4375)
+   intersection = min - slope * 23.4375
+   clamp(MINrem, INTERSECTIONrem + (slope*100)vw, MAXrem)
+*/
+
+:root {
+  /* ---------- Type families ---------- */
+  --font-display: '[Display]', serif;
+  --font-body: '[Body]', sans-serif;
+
+  /* ---------- Fluid type scale (375 -> 1500) ---------- */
+  --text-display: clamp(2.75rem, 1.667rem + 4.622vw, 6rem);
+  --text-h1: clamp(2.25rem, 1.667rem + 2.489vw, 4rem);
+  --text-h2: clamp(1.75rem, 1.417rem + 1.422vw, 2.75rem);
+  --text-h3: clamp(1.25rem, 1.083rem + 0.711vw, 1.75rem);
+  --text-large: clamp(1.125rem, 1.042rem + 0.356vw, 1.375rem);
+  --text-main: clamp(1rem, 0.958rem + 0.178vw, 1.125rem);
+  --text-small: 0.875rem;
+
+  /* ---------- Line heights / tracking ---------- */
+  --leading-display: 1.05;
+  --leading-heading: 1.15;
+  --leading-body: 1.55;
+  --tracking-display: -0.02em;
+
+  /* ---------- Fluid spacing ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: clamp(0.75rem, 0.667rem + 0.356vw, 1rem);
+  --space-4: clamp(1rem, 0.833rem + 0.711vw, 1.5rem);
+  --space-5: clamp(1.5rem, 1.333rem + 0.711vw, 2rem);
+  --space-6: clamp(2rem, 1.667rem + 1.422vw, 3rem);
+  --space-7: clamp(3rem, 2.333rem + 2.844vw, 5rem);
+  --space-8: clamp(4rem, 2.667rem + 5.689vw, 8rem);
+  --section-space: clamp(5rem, 3.333rem + 7.111vw, 10rem);
+
+  /* ---------- Grid (editorial) ----------
+     Fixed gutter + margin: part of the editorial language.
+     12 columns desktop (1500 frame), 4 columns mobile (375 frame). */
+  --grid-cols: 12;
+  --grid-cols-mobile: 4;
+  --grid-gutter: 1.25rem;   /* 20px, static */
+  --site-margin: 1.25rem;   /* 20px, static */
+
+  /* ---------- Site frame ---------- */
+  --container-max: 93.75rem;   /* 1500px cap; margins grow beyond */
+  --container-narrow: 50rem;
+
+  /* ---------- Radius / borders ---------- */
+  --radius-small: 0.25rem;
+  --radius-main: 0.5rem;
+  --radius-round: 100rem;
+  --border-width: 1px;
+
+  /* ---------- Swatches (fill from Figma) ---------- */
+  --swatch-ink-900: #111110;
+  --swatch-ink-700: #3d3c39;
+  --swatch-paper-100: #faf9f7;
+  --swatch-paper-200: #f0efeb;
+  --swatch-accent-500: #ff3b00;
+
+  /* ---------- Semantic (components use ONLY these) ---------- */
+  --color-bg: var(--swatch-paper-100);
+  --color-bg-2: var(--swatch-paper-200);
+  --color-text: var(--swatch-ink-900);
+  --color-text-muted: color-mix(in oklch, var(--color-text) 65%, transparent);
+  --color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
+  --color-accent: var(--swatch-accent-500);
+
+  /* ---------- Motion ---------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast: 200ms;
+  --duration-main: 300ms;
+  --duration-slow: 600ms;
+}
+
+/* Section theme variants remap semantic tokens */
+.theme-dark {
+  --color-bg: var(--swatch-ink-900);
+  --color-bg-2: var(--swatch-ink-700);
+  --color-text: var(--swatch-paper-100);
+}

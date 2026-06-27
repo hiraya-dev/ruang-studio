@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import { home } from '../../data/home';
+import valuesImg from '../../assets/values-interior.jpg';
+
+const { eyebrow, items, imageAlt } = home.values;
+---
+
+<section id="values" class="values" aria-labelledby="values-eyebrow">
+  <div class="container">
+    <div class="values_grid section_grid">
+      <div class="values_text">
+        <p id="values-eyebrow" class="values_eyebrow">{eyebrow}</p>
+
+        <ul class="values_list" role="list">
+          {items.map((item) => (
+            <li class="value">
+              <div class="value_head">
+                <span class="value_num">{item.number}</span>
+                <h3 class="value_title">{item.title}</h3>
+              </div>
+              <p class="value_body">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <figure class="values_media">
+        <Image
+          src={valuesImg}
+          alt={imageAlt}
+          width={720}
+          height={932}
+          loading="lazy"
+          format="webp"
+          quality={82}
+          sizes="(min-width: 50em) 48vw, 90vw"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .values {
+    background-color: var(--color-bg);
+    padding-block: var(--space-8);
+  }
+
+  /* Left column (cols 1–5): eyebrow pinned to image top, list to image bottom */
+  .values_text {
+    grid-column: 1 / 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+
+  .values_eyebrow {
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-fg);
+  }
+
+  .values_list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20); /* 80px between values */
+  }
+
+  .value {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* 20px title → body — no scale token at 20px; promote to --space-5 if it recurs */
+  }
+
+  /* Number hangs in the 24px gutter to the left of the title */
+  .value_head {
+    position: relative;
+    padding-left: var(--space-6); /* 24px */
+  }
+
+  .value_num {
+    position: absolute;
+    left: 0;
+    top: 0.4375rem; /* 7px — aligns the small number near the cap height */
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-fg);
+  }
+
+  .value_title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--text-h2);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+  }
+
+  .value_body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-large);
+    line-height: var(--leading-body);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+  }
+
+  /* Image — right half (cols 7–12) */
+  .values_media {
+    grid-column: 7 / 13;
+    margin: 0;
+    aspect-ratio: 720 / 932;
+    overflow: clip;
+  }
+  .values_media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

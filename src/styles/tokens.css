@@ -1,0 +1,87 @@
+/* tokens.css
+   Single source of truth for design tokens.
+   Fluid values interpolate between a 375px (23.4375rem) floor
+   and a 1920px (120rem) ceiling — matching the grid container-max.
+   Above 1920px the layout caps: container locks, margins grow.
+   Figma frames are at 1500px, so those values are the mid-scale state.
+
+   clamp formula for new tokens:
+   slope = (max - min) / (120 - 23.4375)   ← divisor: 96.5625
+   intersection = min - slope * 23.4375
+   clamp(MINrem, INTERSECTIONrem + (slope*100)vw, MAXrem)
+*/
+
+:root {
+  /* ---------- Type families ---------- */
+  --font-display: 'PP Eiko', serif;
+  --font-body: 'PP Mori', sans-serif;
+
+  /* ---------- Fluid type scale (375 -> 1920) ----------
+     Max values are reached at the 1920px container ceiling.
+     Figma 1500px frame shows mid-scale values.
+     Fixed below: main 16px, small 14px, xs 12px. */
+  --text-display: clamp(2.25rem, 1.583rem + 2.848vw, 5rem);   /* 36→80px */
+  --text-h1:      clamp(2rem, 1.515rem + 2.071vw, 4rem);      /* 32→64px */
+  --text-h2:      clamp(1.375rem, 1.102rem + 1.165vw, 2.5rem); /* 22→40px */
+  --text-large:   clamp(1rem, 0.970rem + 0.129vw, 1.125rem);  /* 16→18px */
+  --text-main:    1rem;      /* 16px — button */
+  --text-small:   0.875rem;  /* 14px — nav, footer labels */
+  --text-xs:      0.75rem;   /* 12px — eyebrow / section labels */
+
+  /* ---------- Line heights ---------- */
+  --leading-display: 1.2;
+  --leading-ui:      1.3;
+  --leading-body:    1.6;
+
+  /* ---------- Letter spacing ----------
+     Rule: -0.02em on all headings and body.
+     Exception: +0.02em on 12px eyebrow labels only. */
+  --tracking-tight:  -0.02em;
+  --tracking-wide:    0.02em;
+
+  /* ---------- Spacing scale (fixed) ---------- */
+  --space-1:  0.25rem;  /*  4px */
+  --space-2:  0.5rem;   /*  8px */
+  --space-4:  1rem;     /* 16px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-20: 5rem;     /* 80px */
+
+  /* Named one-offs — project-specific, not part of the scale */
+  --space-hero-pt:     7rem;   /* 112px — hero section top padding */
+  --space-project-gap: 9rem;   /* 144px — project card row horizontal gap */
+
+  /* ---------- Grid ----------
+     12 columns at 1500px, 4 columns at 375px.
+     Gutter and margin fixed at 20px — part of the editorial language. */
+  --grid-cols:        12;
+  --grid-cols-mobile: 4;
+  --grid-gutter:      1.25rem;  /* 20px, static */
+  --site-margin:      1.25rem;  /* 20px, static */
+
+  /* ---------- Site frame ---------- */
+  --container-max:    120rem;  /* 1920px cap */
+
+  /* ---------- Borders ---------- */
+  --border-width: 1px;
+  /* No border-radius: all corners are square throughout the design */
+
+  /* ---------- Swatches ---------- */
+  --swatch-sand-100: #d7d7c8;
+  --swatch-ink-900:  #110f0f;
+
+  /* ---------- Semantic (components use ONLY these) ---------- */
+  --color-bg:      var(--swatch-sand-100);
+  --color-fg:      var(--swatch-ink-900);
+  --color-fg-muted: color-mix(in srgb, var(--color-fg) 50%, transparent);
+  --color-overlay:  color-mix(in srgb, var(--color-fg) 10%, transparent);
+  --color-border:  var(--color-fg);
+
+  /* ---------- Motion ---------- */
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-sheet:     cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast:  200ms;
+  --duration-main:  300ms;
+  --duration-slow:  600ms;
+}

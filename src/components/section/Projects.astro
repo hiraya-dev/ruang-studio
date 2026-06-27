@@ -1,0 +1,268 @@
+---
+import { Image } from 'astro:assets';
+import { home } from '../../data/home';
+import project01 from '../../assets/project-01.jpg';
+import project02 from '../../assets/project-02.jpg';
+import project03 from '../../assets/project-03.jpg';
+
+const { eyebrow, columns, items } = home.projects;
+const gallery = [project01, project02, project03];
+---
+
+<section id="projects" class="work" aria-labelledby="work-eyebrow">
+  <div class="container">
+    <p id="work-eyebrow" class="work_eyebrow">{eyebrow}</p>
+
+    <div class="work_table">
+      <!-- Column header -->
+      <div class="work_head work_grid" aria-hidden="true">
+        <span class="work_col work_col--num">{columns.number}</span>
+        <span class="work_col work_col--name">{columns.project}</span>
+        <span class="work_col work_col--type">{columns.typology}</span>
+        <span class="work_col work_col--date">{columns.date}</span>
+      </div>
+
+      <ul
+        class="work_list"
+        data-accordion-css-init
+        data-accordion-close-siblings="true"
+        role="list"
+      >
+        {items.map((item, i) => {
+          const panelId = `work-panel-${item.number}`;
+          const isFirst = i === 0;
+          return (
+            <li class="work_item" data-accordion-status={isFirst ? 'active' : 'not-active'}>
+              <button
+                type="button"
+                class="work_row work_grid"
+                data-accordion-toggle
+                aria-expanded={isFirst ? 'true' : 'false'}
+                aria-controls={panelId}
+              >
+                <span class="work_col work_col--num">{item.number}</span>
+                <span class="work_col work_col--name">{item.name}</span>
+                <span class="work_col work_col--type">{item.typology}</span>
+                <span class="work_col work_col--date">{item.date}</span>
+                <span class="work_icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+                    <path d="M12 5v14M12 19l6-6M12 19l-6-6" stroke="currentColor" stroke-width="1" stroke-linecap="square" />
+                  </svg>
+                </span>
+                <span class="u-visually-hidden">{`, view project — ${item.name}`}</span>
+              </button>
+
+              <div class="work_panel" id={panelId} role="region" aria-label={item.name}>
+                <div class="work_panel_inner">
+                  <div class="work_panel_grid work_grid">
+                    {item.images.map((idx, n) => (
+                      <div class={`work_shot work_shot--${n + 1}`}>
+                        <Image
+                          src={gallery[idx]}
+                          alt={`${item.name} — interior ${n + 1}`}
+                          width={350}
+                          height={233}
+                          loading="lazy"
+                          format="webp"
+                          quality={80}
+                          sizes="(min-width: 50em) 23vw, 90vw"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    background-color: var(--color-bg);
+    padding-block: var(--space-8);
+  }
+
+  .work_eyebrow {
+    margin: 0 0 var(--space-8);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-fg);
+  }
+
+  /* Shared 12-col grid: header, every row, and every image panel align to it */
+  .work_grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+  }
+
+  /* ---- Column placements (from the 1500 Figma frame) ---- */
+  .work_col--num  { grid-column: 1 / 2; }
+  .work_col--name { grid-column: 2 / 6; }
+  .work_col--type { grid-column: 6 / 10; }
+  .work_col--date { grid-column: 10 / 12; }
+  .work_icon      { grid-column: 12 / 13; justify-self: end; }
+
+  .work_col {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-fg);
+  }
+
+  /* Header row */
+  .work_head {
+    align-items: center;
+    min-height: 2.5rem; /* 40px */
+    padding-bottom: var(--space-2);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .work_list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work_item {
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  /* Toggle row — reset native button, lay it on the grid */
+  .work_row {
+    width: 100%;
+    align-items: center;
+    min-height: 2.5rem; /* 40px */
+    padding: var(--space-2) 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+  }
+
+  .work_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--color-fg);
+    /* closed = points right; open = points down. Osmo easing/duration. */
+    transform: rotate(-90deg);
+    transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+  .work_icon svg { width: 1.5rem; height: 1.5rem; }
+
+  [data-accordion-status='active'] .work_icon {
+    transform: rotate(0deg);
+  }
+
+  /* ---- Accordion height animation (Osmo grid-rows 0fr→1fr) ---- */
+  .work_panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+  [data-accordion-status='active'] .work_panel {
+    grid-template-rows: 1fr;
+  }
+  .work_panel_inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .work_panel_grid {
+    padding-block: var(--space-4) var(--space-8);
+  }
+
+  /* Images align under Project / Typology / Date columns */
+  .work_shot--1 { grid-column: 2 / 5; }
+  .work_shot--2 { grid-column: 6 / 9; }
+  .work_shot--3 { grid-column: 10 / 13; }
+
+  .work_shot {
+    aspect-ratio: 350 / 233;
+    overflow: clip;
+  }
+  .work_shot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .u-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work_panel,
+    .work_icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Osmo CSS accordion — core toggle logic preserved verbatim, with
+  // aria-expanded kept in sync for the accessible button semantics.
+  function initWorkAccordion() {
+    document.querySelectorAll('[data-accordion-css-init]').forEach((accordion) => {
+      if (accordion.getAttribute('data-accordion-bound') === 'true') return;
+      accordion.setAttribute('data-accordion-bound', 'true');
+
+      const closeSiblings =
+        accordion.getAttribute('data-accordion-close-siblings') === 'true';
+
+      accordion.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+        const toggle = target.closest('[data-accordion-toggle]');
+        if (!toggle) return;
+
+        const item = toggle.closest('[data-accordion-status]');
+        if (!item) return;
+
+        const isActive = item.getAttribute('data-accordion-status') === 'active';
+        item.setAttribute('data-accordion-status', isActive ? 'not-active' : 'active');
+        toggle.setAttribute('aria-expanded', String(!isActive));
+
+        if (closeSiblings && !isActive) {
+          accordion
+            .querySelectorAll('[data-accordion-status="active"]')
+            .forEach((sibling) => {
+              if (sibling !== item) {
+                sibling.setAttribute('data-accordion-status', 'not-active');
+                sibling
+                  .querySelector('[data-accordion-toggle]')
+                  ?.setAttribute('aria-expanded', 'false');
+              }
+            });
+        }
+      });
+    });
+  }
+
+  initWorkAccordion();
+  document.addEventListener('astro:page-load', initWorkAccordion);
+</script>

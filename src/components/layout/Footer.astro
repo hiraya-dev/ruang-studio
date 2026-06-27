@@ -1,0 +1,209 @@
+---
+import { site } from '../../data/site';
+// Reuse the nav wordmark (same mark, same 2.875:1 ratio); inline so it
+// inherits ink color and can stretch to the container width.
+import logoSvg from '../../assets/logo.svg?raw';
+
+const { footer, email } = site;
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer_rows">
+      <!-- Row 1: statement + description -->
+      <div class="footer_row footer_row--top section_grid">
+        <p class="footer_heading">{footer.heading}</p>
+        <p class="footer_desc">
+          {footer.description.map((line, i) => (
+            <>{line}{i < footer.description.length - 1 && <br />}</>
+          ))}
+        </p>
+      </div>
+
+      <!-- Row 2: sitemap -->
+      <div class="footer_row footer_row--list section_grid">
+        <p class="footer_label">{footer.sitemapLabel}</p>
+        <nav class="footer_nav" aria-label="Footer">
+          <ul role="list">
+            {footer.sitemap.map((item) => (
+              <li><a class="footer_link" href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Row 3: work with us -->
+      <div class="footer_row footer_row--work section_grid">
+        <p class="footer_label">{footer.workLabel}</p>
+        <a class="footer_email" href={`mailto:${email}`}>{email}</a>
+      </div>
+
+      <!-- Legal -->
+      <div class="footer_legal section_grid">
+        <p class="footer_copy">{footer.copyright}</p>
+        <span class="footer_legalLinks">
+          {footer.legal.map((item) => (
+            <a class="footer_legalLink" href={item.href}>{item.label}</a>
+          ))}
+        </span>
+        <a class="footer_social" href={footer.social.href} target="_blank" rel="noopener noreferrer">
+          {footer.social.label}
+        </a>
+      </div>
+    </div>
+
+    <div class="footer_logo" aria-hidden="true" set:html={logoSvg}></div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-bg);
+    padding-block: var(--space-8) 0;
+  }
+
+  .footer_rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .footer_row {
+    align-items: start;
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+  .footer_row--top {
+    padding-bottom: var(--space-20); /* 80px */
+  }
+
+  /* Row 1 */
+  .footer_heading {
+    grid-column: 1 / 6;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--text-h1);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+  }
+  .footer_desc {
+    grid-column: 7 / 11;
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-large);
+    line-height: var(--leading-body);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+  }
+
+  /* Shared label (sitemap / work with us) */
+  .footer_label {
+    grid-column: 1 / 4;
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-small);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tight);
+    text-transform: uppercase;
+    color: var(--color-fg);
+  }
+
+  /* Row 2 nav */
+  .footer_nav {
+    grid-column: 7 / 13;
+  }
+  .footer_nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer_link,
+  .footer_email {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-large);
+    line-height: var(--leading-body);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+  .footer_link:hover,
+  .footer_email:hover {
+    opacity: 0.6;
+  }
+
+  /* Row 3 email */
+  .footer_email {
+    grid-column: 7 / 13;
+  }
+
+  /* Legal row */
+  .footer_legal {
+    align-items: start;
+    row-gap: var(--space-2);
+  }
+  .footer_copy,
+  .footer_legalLink,
+  .footer_social {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+  .footer_copy { grid-column: 1 / 7; margin: 0; }
+  .footer_legalLinks {
+    grid-column: 7 / 12;
+    display: flex;
+    gap: var(--space-6);
+  }
+  .footer_social {
+    grid-column: 12 / 13;
+    justify-self: end;
+  }
+  .footer_legalLink:hover,
+  .footer_social:hover {
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .footer_link,
+    .footer_email,
+    .footer_legalLink,
+    .footer_social {
+      transition: opacity var(--duration-fast) var(--ease-out-quart);
+    }
+  }
+
+  /* Oversized wordmark — stretches to the container max width and sits flush
+     at the document's bottom edge, where its descenders are clipped, giving the
+     illusion the mark runs off the end of the page.
+     Figma: gap 59px above; visible 370 of 508px tall (≈27% clipped). */
+  .footer_logo {
+    position: relative;
+    margin-top: 3.6875rem; /* 59px — no scale token at this value */
+    color: var(--color-fg);
+    line-height: 0;
+    /* Wrapper is shorter than the mark; its height comes only from this ratio */
+    aspect-ratio: 1460 / 370;
+    overflow: clip;
+  }
+  /* Absolutely positioned so the taller SVG can't grow the wrapper — it
+     overflows the bottom and is clipped at the page end. */
+  .footer_logo :global(svg) {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+interface Props {
+  type?: 'button' | 'submit' | 'reset';
+  href?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { type = 'button', href, class: className, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['button', className]}
+  {...(href ? { href } : { type })}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1rem; /* 10px 16px */
+    border: var(--border-width) solid var(--color-border);
+    background-color: transparent;
+    color: var(--color-fg);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-main); /* 16px */
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-tight);
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Outline → fill invert on hover */
+  .button:hover {
+    background-color: var(--color-fg);
+    color: var(--color-bg);
+  }
+  .button:active {
+    background-color: color-mix(in srgb, var(--color-fg) 80%, transparent);
+  }
+  .button:focus-visible {
+    outline: 2px solid var(--color-fg);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .button {
+      transition:
+        background-color var(--duration-fast) var(--ease-out-quart),
+        color var(--duration-fast) var(--ease-out-quart);
+    }
+  }
+</style>

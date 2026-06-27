@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/logo.svg';
+import { site } from '../../data/site';
+---
+
+<header class="nav" role="banner">
+  <div class="nav_inner">
+    <a href="/" class="nav_logo" aria-label={`${site.name} — home`}>
+      <Image src={logo} alt={site.name} width={92} height={32} loading="eager" />
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="nav_links" role="list">
+        {site.nav.map(({ label, href }) => (
+          <li>
+            <a href={href} class="nav_link">{label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* Header spans full viewport — background colour fills edge to edge */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: var(--color-bg);
+  }
+
+  /* Mirrors the hero section: max-width + margin-inline + padding-inline
+     so the logo and headline share the same horizontal origin at every viewport. */
+  .nav_inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--site-margin);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-6);
+  }
+
+  .nav_logo {
+    display: block;
+    flex-shrink: 0;
+    color: var(--color-fg);
+    line-height: 0;
+  }
+
+  .nav_logo img {
+    width: 5.75rem;  /* 92px */
+    height: 2rem;    /* 32px */
+  }
+
+  .nav_links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav_link {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-small);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tight);
+    text-transform: uppercase;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .nav_link:hover {
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nav_link {
+      transition: opacity var(--duration-fast) var(--ease-out-quart);
+    }
+  }
+</style>
