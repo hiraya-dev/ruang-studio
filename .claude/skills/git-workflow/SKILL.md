@@ -10,7 +10,7 @@ Solo project. Commit cleanly and locally; never reach for the remote on your own
 ## Rules
 
 1. **Never push.** Commit locally only. Push to a remote, or open a PR, *only* when the user explicitly says to push. No auto-push after a commit, ever.
-2. **The author is the user, not Claude.** No `Co-Authored-By: Claude`, no "Generated with Claude Code" footer, no Claude attribution anywhere in the message or body.
+2. **The author is the user, not an AI tool.** No `Co-authored-by: Cursor`, no `Co-Authored-By: Claude`, no "Generated with" footer, no AI attribution anywhere in the message or body.
 3. **No branch rules.** Commit on the current branch. Don't create, switch, or enforce a branching scheme unless asked.
 4. **Commit sensible units of work** — a finished section, a fix, a token change. Don't commit broken or half-built states unless asked to checkpoint.
 
@@ -29,6 +29,6 @@ Solo project. Commit cleanly and locally; never reach for the remote on your own
 ## Anti-patterns
 
 - Pushing or opening a PR without being asked
-- Any "Generated with" / "Co-Authored-By: Claude" line
+- Any "Generated with" / `Co-authored-by: Cursor` / `Co-Authored-By: Claude` line
 - `git add -A` sweeping in unrelated edits
 - Committing a half-built section as if it were done

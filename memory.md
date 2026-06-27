@@ -13,6 +13,7 @@ When you learn something that will bite a future session — a constraint, a bro
 
 Hard rules for this project. Things that must always or never happen.
 
+- Git commits: author is the user (`hiraya-dev`), never Cursor or any AI tool. No `Co-authored-by: Cursor`, `Co-Authored-By: Claude`, or "Generated with" footers in commit messages.
 - [e.g. Brand red `--swatch-accent-500` fails AA on text — accent for fills/borders only, never body copy]
 - [e.g. No third-party embeds before consent]
 
