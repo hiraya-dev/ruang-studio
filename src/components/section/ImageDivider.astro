@@ -3,15 +3,15 @@ import { Image } from 'astro:assets';
 import dividerImg from '../../assets/divider-interior.jpg';
 ---
 
-<section
-  class="divider"
-  data-parallax="trigger"
-  data-parallax-start="6"
-  data-parallax-end="-6"
-  data-parallax-scrub="true"
-  aria-hidden="true"
->
-  <div class="divider_media" data-parallax="target">
+<section class="divider" aria-hidden="true">
+  <div
+    class="divider_media"
+    data-parallax="trigger"
+    data-parallax-scroll-start="top top"
+    data-parallax-start="0"
+    data-parallax-end="40"
+    data-parallax-scrub="1"
+  >
     <Image
       src={dividerImg}
       alt=""
@@ -27,31 +27,32 @@ import dividerImg from '../../assets/divider-interior.jpg';
 </section>
 
 <style>
-  /* Full-bleed: edge to edge of the viewport, full viewport height */
+  /* Mask: clips the taller bg wrapper */
   .divider {
     position: relative;
     width: 100%;
     height: 100dvh;
-    overflow: clip; /* mask: hides the taller media wrapper's overflow */
+    overflow: clip;
     background-color: var(--color-bg);
   }
 
-  /* Taller-than-frame wrapper, centred, so it can drift without exposing gaps */
+  /* Taller bg wrapper — trigger and target in one. 120% height gives the image room to drift. */
   .divider_media {
     position: absolute;
-    inset: -10% 0; /* 120% tall, 10% slack top and bottom */
+    width: 100%;
+    height: 120%;
     will-change: transform;
   }
   .divider_media :global(img) {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
   .divider_overlay {
     position: absolute;
     inset: 0;
-    background-color: var(--color-overlay); /* ink @ 10% */
+    background-color: var(--color-overlay);
     pointer-events: none;
   }
 </style>
